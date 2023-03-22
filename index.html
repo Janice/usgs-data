@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html>
+    <!-- html head -->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Potomac H2O & WX data</title>
+        <meta http-equiv="refresh" content="30">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+         <!-- bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+        
+        <!-- GWIS requires jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        
+        <!-- GWIS JSAPI 0.0 -->
+        <link rel="stylesheet" href="https://txpub.usgs.gov/DSS/GWIS/0.0/jsapi/gwis-plot-utils.css"/>
+        <script src="https://txpub.usgs.gov/DSS/GWIS/0.0/jsapi/gwis-plot-utils.min.js"></script>
+        <style>
+				body {
+  				background-color: white;
+  				margin-left: 20px;
+				}
+
+				h1 {
+  				color: maroon;
+  				margin-left: 40px;
+				}
+				
+				.imgwx {
+					height:300px;
+				}
+				
+				.plot {
+					height:500px;
+				}
+				.smallplot {
+					height:300px;
+					text-align: center;
+				}
+				.empty {
+					height:10px;
+				}
+				.hourly{
+				    text-align: center;
+				    height:500px;
+				}
+				iframe {
+    				width: 100px;
+    				height: 36px;
+    				margin: 0 auto;
+    				display:block;
+    			}
+}
+       </style>
+       
+       
+       
+    </head>
+    
+    <!-- html body -->
+    <body style="background:#eee; font-family:arial;">
+        <!-- title -->
+       <div class="container">
+       	<p class="text-center">Content refreshes every 30 seconds</p>
+       <!-- wp:paragraph {"align":"center"} -->
+        <p class="text-center"><a href="https://smartweather.weatherflow.com/station/15431/grid" 
+        	target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">
+        	<strong>Weather data from Fletchers Cove</strong></a></p>
+        <!-- begin container -->
+        
+<iframe src="https://free.timeanddate.com/clock/i8r27zmj/n263/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="87" height="36"></iframe>
+				 	
+				 					 	<!-- begin 5 site plot -->
+				 	<div class="row" >
+           <div id="plot10" class="p-12 col-xs-12 plot m-3 "></div>
+           <div class="row col-xs-12 empty "></div>
+				</div>
+        <script>
+            GWIS.plot({
+                div_id      : "plot10",  // plot div
+                series : [              // add multiple data lines, in this order:                                     
+                   
+                    { site:"01610000", pcode:"00065", label:"Paw Paw", stroke_width:4, stroke_pattern:[],    color: "#F6F" }, 
+                    { site:"01613000", pcode:"00065", label:"Hancock", stroke_width:4, stroke_pattern:[], color: "#fa0" }, 
+                    { site:"01618000", pcode:"00065", label:"Shepherdstown", stroke_width:4, stroke_pattern:[7,3], color: "#0C0" },
+                    { site:"01638500", pcode:"00065", label:"Point of Rocks", stroke_width:4, stroke_pattern:[],    color: "#58c" }, 
+                    { site:"01646500", pcode:"00065", label:"Little Falls", stroke_width:4, stroke_pattern:[7,3], color: "#900" }, 
+                    
+                ],
+                title    : "Potomac River Gauge Height at 5 sites",      // plot title
+                ylabel   : "Gauge Height, in ft" // y-axis label
+            });
+        </script>
+                       
+				 	
+
+    <!-- Little Falls and Point of Rocks turbidity & temp -->
+
+				 	
+				 	<div class="row" >
+				 		<div class="p-12 col-xs-12" <label>Celcius</label>
+  						<input id="inputFahrenheit" type="number" placeholder="C" oninput="temperatureConverter(this.value)" 
+  						onchange="temperatureConverter(this.value)">
+						Fahrenheit: <span id="outputCelcius"></span></div>
+						<div class="p-12 col-xs-12 plot " id="plot1"></div>
+						
+						<div class="row col-xs-12 empty "></div>
+					</div>
+					
+					<script>
+							function temperatureConverter(valNum) {
+  						valNum = parseFloat(valNum);
+  						document.getElementById("outputCelcius").innerHTML=(valNum*9/5)+32;
+							}
+					</script>
+
+				 		
+        <script>
+            GWIS.plot({
+                div_id : "plot1",
+                series : [
+                    { axis:"y2", site:"01646500", pcode:"63680", label:"Little Falls Turbidity", stroke_width:2, stroke_pattern:[], color: "#900" },
+                    { axis:"y1", site:"01646500", pcode:"00010", label:"Little Falls Temp", stroke_width:2, stroke_pattern:[2,2], color: "#900" },
+                    { axis:"y2", site:"01638500", pcode:"63680", label:"Point of Rocks Turbidity", stroke_width:2, stroke_pattern:[],    color: "#58c" },
+                    { axis:"y1", site:"01638500", pcode:"00010", label:"Point of Rocks Temp", stroke_width:2, stroke_pattern:[2,2],    color: "#58c" }
+                ],
+                title  : " Turbidity___ and Temperature.... in C at Little Falls (red) and Point of Rocks (blue)",
+                ylabel   : "Temperature",            // y1 axis label
+                y2label  : "Turbidity",            // y2 axis label
+                controls : "all"    
+            });
+        </script>
+
+				
+				<!-- Little Falls and Point of Rocks temperature 
+					<div class="row" >
+						<div class="p-12 col-xs-12 plot " id="plot2"></div>
+						
+						<div class="row col-xs-12 empty "></div>
+					</div>
+				 		
+        <script>
+            GWIS.plot({
+                div_id : "plot2",
+                series : [
+                    { axis:"y2", site:"01646500", pcode:"00010", label:"Little Falls", stroke_width:2, stroke_pattern:[], color: "#900" },
+                    { axis:"y2", site:"01638500", pcode:"00010", label:"Point of Rocks", stroke_width:2, stroke_pattern:[],    color: "#58c" }
+                    ],
+                title  : "Temperature at Little Falls (red) and Point of Rocks (blue)"
+            });
+        </script>    -->
+				
+				
+			
+        
+        <!-- Little Falls gage height -->
+        
+       
+					<div class="row" >
+						<h2 class="row col-xs-12 text-center" id="show-lf-text"></h2>
+						<div class="p-12 col-xs-6 smallplot m-3 " id="plot4"></div>
+						
+						
+        <!-- NOAA Little Falls  -->
+				   
+				   <div class="col-xs-6 smallplot m-3 ">
+						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=brkm2"
+							 target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/brkm2_hg.png" 
+        	class="img-fluid imgwx" alt="Potomac River near Washington DC (Little Falls)" /></a>
+				   </div>
+				   <div class="row col-xs-12 empty"></div>
+					</div>		
+
+				<!-- Little Falls gage height -->
+
+        <script>
+            GWIS.plot({
+                div_id : "plot4",
+                series : [{ site:"01646500", pcode:"00065" }],
+                title  : "Little Falls gage height, feet",
+                legend : "onmouseover"
+            });
+        </script>
+        <!-- Little Falls gage height text -->
+				<script>
+			      var usgsAPI = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=01646500&parameterCd=00065&siteStatus=all";
+      							$.getJSON(usgsAPI, 
+      							 function( data ) {
+  										var theValue = data.value;
+  										var cur = new Date(theValue.timeSeries[0].values[0].value[0].dateTime).toLocaleString([], {year: "numeric", month: "long", day: "numeric",	hour: '2-digit', minute:'2-digit'});
+  										document.getElementById("show-lf-text").innerHTML 
+  										= theValue.timeSeries[0].values[0].value[0].value + " ft. at " + cur;
+                     });		     		
+				</script>
+				
+				<!-- Little Falls turbidity text -->
+				<script>
+			      var usgsAPI = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=01646500&parameterCd=63680&siteStatus=all";
+      							$.getJSON(usgsAPI, 
+      							 function( data ) {
+  										var theValue = data.value;
+  										document.getElementById("show-lf-text").innerHTML 
+  										+= "  Turbidity  " + theValue.timeSeries[0].values[1].value[0].value ;
+                     });		     		
+				</script>
+				<!-- Edwards Ferry gage height -->
+				
+					<div class="row " >
+						<div class="col-xs-6 smallplot m-3 " id="plot5"></div>
+						
+						<!-- NOAA Edwards Ferry  -->
+				   
+				   <div class="col-xs-6 smallplot m-3">
+						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=edfm2" 
+				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/edfm2_hg.png"
+				        	 class="img-fluid imgwx" alt="Potomac River near Edwards Ferry" /></a>
+				   </div>
+				   <div class="row col-xs-12 empty"></div>
+					</div>
+				
+				<!-- Edwards Ferry gage height -->
+				
+        <script>
+            GWIS.plot({
+                div_id : "plot5",
+                series : [{ site:"01644148", pcode:"00065" }],
+                title  : "Edwards Ferry gage height, feet",
+                legend : "onmouseover"
+            });
+        </script>
+        
+        <!-- Point of Rocks gage height -->
+				
+					<div class="row " >
+						<h2 class="row col-xs-12 text-center" id="show-por-text"></h2>
+						<div class="col-xs-6 smallplot m-3 " id="plot6"></div>
+						
+						<!-- NOAA Point of Rocks  -->
+				   
+				   <div class="col-xs-6 smallplot m-3">
+						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=porm2" 
+				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/porm2_hg.png"
+				        	 class="img-fluid imgwx" alt="Potomac River near Point of Rocks" /></a>
+				   </div>
+				   <div class="row col-xs-12 empty"></div>
+					</div>
+				<!-- Point of Rocks gage height -->
+				
+        <script>
+            GWIS.plot({
+                div_id : "plot6",
+                series : [{ site:"01638500", pcode:"00065" }],
+                title  : "Point of Rocks gage height, feet",
+                legend : "onmouseover"
+            });
+        </script>
+        <!-- Point of Rocks gage height text -->
+				<script>
+			      var usgsAPI = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=01638500&parameterCd=00065&siteStatus=all";
+      							$.getJSON(usgsAPI, 
+      							 function( data ) {
+  										var theValue = data.value;
+  										var cur = new Date(theValue.timeSeries[0].values[0].value[0].dateTime).toLocaleString([], {year: "numeric", month: "long", day: "numeric",	hour: '2-digit', minute:'2-digit'});
+  										document.getElementById("show-por-text").innerHTML 
+  										= theValue.timeSeries[0].values[0].value[0].value + " ft. at " + cur;
+                     });		                		
+				</script>
+											<!-- Point of Rocks turbidity text -->
+				<script>
+			      var usgsAPI = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=01638500&parameterCd=63680&siteStatus=all";
+      							$.getJSON(usgsAPI, 
+      							 function( data ) {
+  										var theValue = data.value;
+  										document.getElementById("show-por-text").innerHTML 
+  										+= "  Turbidity  " + theValue.timeSeries[0].values[0].value[0].value ;
+                     });		     		
+				</script>
+
+
+            <!-- NOAA Harpers Ferry -->
+				
+					<div class="row " >
+						<div class="col-xs-6 smallplot m-3 ">
+							<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=hfew2" 
+				        	target="_blank" rel="noopener noreferrer"><img src="https://water.weather.gov/resources/hydrographs/hfew2_hg.png"
+				        	 class="img-fluid imgwx" alt="Potomac River near Harpers Ferry" /></a>
+				    </div>
+						
+						<!-- NOAA  Millville -->
+				   
+				   <div class="col-xs-6 smallplot m-3">
+						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=milw2" 
+				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/milw2_hg.png"
+				        	 class="img-fluid imgwx" alt="Potomac River near Millville" /></a>
+				   </div>
+				   <div class="row col-xs-12 empty"></div>
+					</div>
+        </script>
+        
+        <!-- Shepherdstown, WV gage height -->
+				
+					<div class="row " >
+						<div class="col-xs-6 smallplot m-3 " id="plot7"></div>
+						
+						<!-- NOAA Shepherdstown, WV  -->
+				   
+				   <div class="col-xs-6 smallplot m-3">
+						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=shew2" 
+				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/shew2_hg.png"
+				        	 class="img-fluid imgwx" alt="Potomac River near Shepherdstown, WV" /></a>
+				   </div>
+				   <div class="row col-xs-12 empty"></div>
+					</div>
+				<!-- Shepherdstown, WV gauge height -->
+				
+        <script>
+            GWIS.plot({
+                div_id : "plot7",
+                series : [{ site:"01618000", pcode:"00065" }],
+                title  : "Shepherdstown, WV gage height, feet",
+                legend : "onmouseover"
+            });
+        </script>
+        
+        <!-- Hancock, MD gauge height -->
+				
+					<div class="row " >
+						<div class="col-xs-6 smallplot m-3 " id="plot8"></div>
+						
+						<!-- NOAA Hancock MD  -->
+				   
+				   <div class="col-xs-6 smallplot m-3">
+						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=hnkm2" 
+				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/hnkm2_hg.png"
+				        	 class="img-fluid imgwx" alt="Potomac River near Point of Rocks" /></a>
+				   </div>
+				   <div class="row col-xs-12 empty"></div>
+					</div>
+				<!-- Hancock,MD gauge height -->
+				
+        <script>
+            GWIS.plot({
+                div_id : "plot8",
+                series : [{ site:"01613000", pcode:"00065" }],
+                title  : "Hancock, MD gage height, feet",
+                legend : "onmouseover"
+            });
+        </script>
+        <!-- Paw Paw, WV gauge height -->
+				
+					<div class="row " >
+						<div class="col-xs-6 smallplot m-3 " id="plot9"></div>
+						
+						<!-- NOAA Paw Paw, WV  -->
+				   
+				   <div class="col-xs-6 smallplot m-3">
+						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=paww2" 
+				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/paww2_hg.png"
+				        	 class="img-fluid imgwx" alt="Potomac River near Paw Paw, WV" /></a>
+				   </div>
+				   <div class="row col-xs-12 empty"></div>
+					</div>
+				<!-- Paw Paw, WV gauge height -->
+				
+        <script>
+            GWIS.plot({
+                div_id : "plot9",
+                series : [{ site:"01610000", pcode:"00065" }],
+                title  : "Paw Paw WV height, feet",
+                legend : "onmouseover"
+            });
+        </script>
+				
+
+				
+        <!-- popup a plot when a button is clicked 
+        <h2>A Pop-Up Plot:</h2>
+        <p>
+            <button onclick="button_onclick()">Little Falls Water Temperature</button>
+        </p>
+        <script>
+            var button_onclick = function() {
+                GWIS.plot({
+                    series : [{ site:"01646500", pcode:"00010" }]
+                });
+            };
+        </script>-->
+
+
+        
+        <!-- title -->
+        <h2>Compare Two Potomac River Sites</h2>
+        
+        <!-- 2 site menus with groupings -->
+        <p>
+            Select Site 1:
+            <select id="menu_site1" onchange="update_plot();">
+                <optgroup label="Maryland Mainstem Potomac">
+                    <option value="01646500">01646500 Potomac River River at Little Falls           </option>                   
+                    <option value="01644148">01644148 Potomac River at Edwards Ferry, MD            </option>
+                    <option value="01638500">01638500 POTOMAC RIVER AT POINT OF ROCKS, MD           </option>                    
+                    <option value="01618000">01618000 POTOMAC RIVER AT SHEPHERDSTOWN, WV            </option>
+                    <option value="01638500">01638500 POTOMAC RIVER AT HANCOCK MD                   </option>
+                    <option value="01613000">01613000 POTOMAC RIVER AT PAW PAW, WV                  </option>
+                    <option value="01603000">01603000 NORTH BRANCH POTOMAC RIVER NEAR CUMBERLAND,MD </option>
+                </optgroup>
+            </select>
+            <br/>
+            Select Site 2:
+            <select id="menu_site2" onchange="update_plot();"></select>
+            <script>
+                $("#menu_site2")
+                    .html( $("#menu_site1").html()             )  // set site menu 2 items to site menu 1 items...
+                    .val(  $("#menu_site1 option:eq(1)").val() ); // ...and set 2nd item selected at startup
+            </script>
+        </p>
+        
+        <!-- parameter menu used for both sites -->
+        <p>
+            Select Parameter:
+            <select id="menu_pcode" onchange="update_plot();">
+                <option value="00065">Gage Height, ft                          </option>
+                <option value="00060">Streamflow, ft<sup>3</sup>/sec           </option>
+                <option value="00010">Water Temperature, &deg;C                </option>
+                <option value="00095">Specific Conductance, &mu;S/cm @ 25&deg;C</option>
+                <option value="00300">Dissolved Oxygen, mg/L                   </option>
+           
+            </select>
+        </p>
+        
+        <!-- time period menu used for both sites -->
+        <p>
+            Select Time Period:
+            <select id="menu_period" onchange="update_plot();">
+                <option value="p7d" >Past  7 Days</option>                
+                <option value="p1d" >Past  1 Day </option>
+                <option value="p7d" >Past  7 Days</option>
+                <option value="p14d">Past 14 Days</option>
+                <option value="p30d">Past 30 Days</option>
+                <option value="p60d">Past 60 Days</option>
+            </select>
+        </p>
+        
+        <!-- plot -->
+        
+        	
+          
+				
+				
+				<div class="row" >
+        <div id="plot2" class="p-12 col-xs-12 plot m-3 ">></div>
+         <div class="row col-xs-12 empty "></div>
+         </div>
+     
+        
+        <!-- main js -->
+        <script>
+            
+            // declare global plot object for accessing the previous plot when a new plot is created
+            var plot = undefined;
+            
+            // function to update plot using currently selected menu items
+            var update_plot = function() {
+                
+                // create plot
+                plot = GWIS.plot({
+                    div_id : "plot2",
+                    period : $("#menu_period").val(), // current menu value used for both
+                    series : [
+                        { // site 1
+                            site  : $("#menu_site1").val(),                            // current menu value for site 1
+                            pcode : $("#menu_pcode").val(),                            // current menu value used for both
+                            label : "Site 1: "+$("#menu_site1 option:selected").text() // current menu text  for site 1
+                        },
+                        { // site 2
+                            site  : $("#menu_site2").val(),                            // current menu value for site 2
+                            pcode : $("#menu_pcode").val(),                            // current menu value used for both
+                            label : "Site 2: "+$("#menu_site2 option:selected").text() // current menu text  for site 2
+                        }
+                    ],
+                    title          : $("#menu_pcode  option:selected").text(), // current menu text - parameter plotted
+                    xlabel         : $("#menu_period option:selected").text(), // current menu text - time period requested
+                    ylabel         : $("#menu_pcode  option:selected").text(), // current menu text - parameter plotted
+                    range_selector : false,
+                    
+                    // add all controls
+                    controls : "all",
+                    
+                    // we want new plots to keep the same control checkbox state as the previous plot
+                    // use previous plot options for new plot, if previous plot does not exist (eg: startup) set a default
+                    y_fixscale : (plot ? plot.y_fixscale() : false ), // previous state or default false for startup
+                    y_logscale : (plot ? plot.y_logscale() : false ), // ...etc...
+                    y_show0    : (plot ? plot.y_show0()    : false ),
+                    x_grid     : (plot ? plot.x_grid()     : true  ),
+                    y_grid     : (plot ? plot.y_grid()     : true  )
+                });
+            };
+            
+            // update plot on startup using startup menu items
+            update_plot();
+            
+        </script>
+        
+        <div class="row col-xs-12">
+
+            <a href="https://www.tide-forecast.com/locations/Chain-Bridge-one-miles-below-DC/tides/latest" target="_blank" rel="noopener">
+                <img class="img-responsive" src="https://www.tide-forecast.com/system/charts-png/Chain-Bridge-one-miles-below-DC/tides.png" 
+                alt=""/></a>
+        </div>
+        <div class="row col-xs-12 empty "></div>
+        <div class="row col-xs-12 hourly">
+            <a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=gtnd2" 
+				        	target="_blank" rel="noopener noreferrer">
+            <img src="http://water.weather.gov/resources/hydrographs/gtnd2_hg.png" alt="Potomac River at Wisconsin Ave" 
+            border="0" /><br />Hourly National Weather Service Forecast for near Fletcher's Cove (refresh all for updates)<br />
+            </a>
+        </div>
+        <div class="row col-xs-12 empty "></div>
+        <div class="row col-xs-12 hourly">
+            <a href="https://forecast.weather.gov/MapClick.php?lat=38.8656&lon=-77.0406&unit=0&lg=english&FcstType=graphical" target="_blank" rel="noopener">
+            <img src="http://forecast.weather.gov/meteograms/Plotter.php?lat=38.9384&amp;lon=-77.1654&amp;wfo=LWX&amp;zcode=VAZ053&amp;gset=20&amp;gdiff=3&amp;unit=0&amp;tinfo=EY5&amp;ahour=0&amp;pcmd=11011111111110000000000000000000000000000000000000000000000&amp;lg=en&amp;indu=1!1!1!&amp;dd=&amp;bw=&amp;hrspan=48&amp;pqpfhr=6&amp;psnwhr=6"
+            alt="forecasts at DCA"/>
+            </a>
+        </div>
+        <div class="row col-xs-12 empty "></div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
