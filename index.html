@@ -96,24 +96,23 @@
 				 	
 
     <!-- Little Falls and Point of Rocks turbidity & temp -->
+						
 
 				 	
 				 	<div class="row" >
-				 		<div class="p-12 col-xs-12" <label>Celcius</label>
-  						<input id="inputFahrenheit" type="number" placeholder="C" oninput="temperatureConverter(this.value)" 
-  						onchange="temperatureConverter(this.value)">
-						Fahrenheit: <span id="outputCelcius"></span></div>
+				 		<h2 class="row col-xs-12 text-center" id="show-temp-text"></h2>
+				 		<div class="row col-xs-12 empty "></div>
 						<div class="p-12 col-xs-12 plot " id="plot1"></div>
 						
 						<div class="row col-xs-12 empty "></div>
 					</div>
 					
-					<script>
+		<!-- 			<script>
 							function temperatureConverter(valNum) {
   						valNum = parseFloat(valNum);
   						document.getElementById("outputCelcius").innerHTML=(valNum*9/5)+32;
 							}
-					</script>
+					</script> -->
 
 				 		
         <script>
@@ -132,6 +131,21 @@
             });
         </script>
 
+
+				<!-- Little Falls temp text -->
+				<script>
+			      var usgsAPI = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=01646500&parameterCd=00010&siteStatus=all";
+      							$.getJSON(usgsAPI, 
+      							 function( data ) {
+  										var theValue = data.value;
+  										var cur = new Date(theValue.timeSeries[0].values[4].value[0].dateTime).toLocaleString([], {year: "numeric", month: "long", day: "numeric",	hour: '2-digit', minute:'2-digit'});
+  										var celcius = parseInt(theValue.timeSeries[0].values[4].value[0].value);
+  										var far = (celcius*9/5)+32;
+  										document.getElementById("show-temp-text").innerHTML 
+  										+= "Little Falls Water Temp  " + celcius + "\u00B0 C, " + far + "\u00B0 F on "+ cur;
+                     });		     		
+				</script>
+				
 				
 				<!-- Little Falls and Point of Rocks temperature 
 					<div class="row" >
@@ -190,7 +204,7 @@
   										var theValue = data.value;
   										var cur = new Date(theValue.timeSeries[0].values[0].value[0].dateTime).toLocaleString([], {year: "numeric", month: "long", day: "numeric",	hour: '2-digit', minute:'2-digit'});
   										document.getElementById("show-lf-text").innerHTML 
-  										= theValue.timeSeries[0].values[0].value[0].value + " ft. at " + cur;
+  										= "Little Falls level "+ theValue.timeSeries[0].values[0].value[0].value + " ft. on " + cur;
                      });		     		
 				</script>
 				
@@ -200,7 +214,7 @@
       							$.getJSON(usgsAPI, 
       							 function( data ) {
   										var theValue = data.value;
-  										document.getElementById("show-lf-text").innerHTML 
+  										document.getElementById("show-temp-text").innerHTML 
   										+= "  Turbidity  " + theValue.timeSeries[0].values[1].value[0].value ;
                      });		     		
 				</script>
