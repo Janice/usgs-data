@@ -25,8 +25,7 @@
 				h1 {
   				color: maroon;
   				margin-left: 40px;
-				}
-				
+				}			
 				.imgwx {
 					height:300px;
 				}
@@ -64,9 +63,11 @@
        <div class="container">
        	<p class="text-center">USGS Gauges update via satellite once per hour This page refreshes every 2 minutes </p>
        <!-- wp:paragraph {"align":"center"} -->
-        <p class="text-center"><a href="https://smartweather.weatherflow.com/station/15431/grid" 
+       
+        <div class="row text-center" ><a href="https://www.google.com/maps/d/u/0/viewer?mid=1kH9iVRdbRRSAvLyv0JEYVcYWsx3RIwL-&ll=38.916477051532276%2C-77.10775135936963&z=16" 
         	target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">
-        	<strong>Weather data from Fletchers Cove</strong></a></p>
+        <img src="fcmap.png" alt="map of Fletchers Cove"></div>
+        <div class="row text-center" >Map of Fishing Spots At Fletchers Cove</a></div>
         <!-- begin container -->
         
 <iframe src="https://free.timeanddate.com/clock/i8r27zmj/n263/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="87" height="36"></iframe>
@@ -247,6 +248,7 @@
         <!-- Point of Rocks gage height -->
 				
 					<div class="row " >
+ <!--						<h2 class="row col-xs-12 text-center" id="show-por-temp-text"></h2>     -->
 						<h2 class="row col-xs-12 text-center" id="show-por-text"></h2>
 						<div class="col-xs-6 smallplot m-3 " id="plot6"></div>
 						
@@ -269,6 +271,22 @@
                 legend : "onmouseover"
             });
         </script>
+        
+        				<!-- Point of Rocks temp text -->
+				<script>
+			      var usgsAPI = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=01638500&parameterCd=00010&siteStatus=all";
+      							$.getJSON(usgsAPI, 
+      							 function( data ) {
+  										var theValue = data.value;
+  										var cur = new Date(theValue.timeSeries[0].values[0].value[0].dateTime).toLocaleString([], {year: "numeric", month: "long", day: "numeric",	hour: '2-digit', minute:'2-digit'});
+  										var celcius = parseInt(theValue.timeSeries[0].values[0].value[0].value);
+  										var far = (celcius*9/5)+32;
+  										document.getElementById("show-por-text").innerHTML 
+  										= "Point of Rocks T " + celcius + "\u00B0 C, " + far + "\u00B0 F,  ";
+                     });		     		
+				</script>
+				
+				
         <!-- Point of Rocks gage height text -->
 				<script>
 			      var usgsAPI = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=01638500&parameterCd=00065&siteStatus=all";
@@ -277,7 +295,7 @@
   										var theValue = data.value;
   										var cur = new Date(theValue.timeSeries[0].values[0].value[0].dateTime).toLocaleString([], {year: "numeric", month: "long", day: "numeric",	hour: '2-digit', minute:'2-digit'});
   										document.getElementById("show-por-text").innerHTML 
-  										= theValue.timeSeries[0].values[0].value[0].value + " ft. at " + cur;
+  										+= "level " + theValue.timeSeries[0].values[0].value[0].value + " ft. on " + cur;
                      });		                		
 				</script>
 											<!-- Point of Rocks turbidity text -->
