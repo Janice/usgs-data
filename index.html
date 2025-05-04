@@ -16,16 +16,28 @@
         <!-- GWIS JSAPI 0.0 -->
         <link rel="stylesheet" href="https://txpub.usgs.gov/DSS/GWIS/0.0/jsapi/gwis-plot-utils.css"/>
         <script src="https://txpub.usgs.gov/DSS/GWIS/0.0/jsapi/gwis-plot-utils.min.js"></script>
+        
+        <!-- GWIS API -->
+				<link rel="stylesheet" href="https://dashboard.waterdata.usgs.gov/api/gwis/2.1/gwis.min.css" />
+				<script src="https://dashboard.waterdata.usgs.gov/api/gwis/2.1/gwis.min.js"></script>
+        	
+        	
+        	
         <style>
 				body {
   				background-color: white;
   				margin-left: 20px;
 				}
 
-				h1 {
-  				color: maroon;
-  				margin-left: 40px;
-				}			
+				hr
+				{
+ 					border-color: black;
+    			background-color: black;
+    			height: 1px;
+    			border-width: 1px;
+    			border-style: solid;
+				}
+			
 				.imgwx {
 					height:300px;
 				}
@@ -72,30 +84,39 @@
         
 <iframe src="https://free.timeanddate.com/clock/i8r27zmj/n263/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="87" height="36"></iframe>
 				 	
+				 	<div class="row col-xs-12 text-center h3">
+					<a href="https://water.noaa.gov/#@=-77.8834128,39.0892757,7.8785195&b=topographic&g=obsFcst,1!1!1!1!1!1!1!1!1!1!1!1!1!1!0!0!0!0,0.5,1!1!1!1!0,0,0&ab=0,0,%23D94B4A,1,1,1,%23cccccc,1,0,0,%23B243B1,1,0,0,%2398E09A,1&a=hydrologic,0.35&s=0,0,0.9,0.9&n=false,%2372afe9,0.9,0,0.9,0,0.9&p=false,0.75,0,7,0,1,2024,2,19,0&d=0,0,1,1,1,1,1,1,%23006EFF,1,%23006EFF,1,%23006EFF&q="	target="_blank" rel="noopener noreferrer">
+					Next generation NOAA NWPS Map Interface of DMV gauges </a>
+					</div>
+				 	
 				 					 	<!-- begin 5 site plot -->
-				 	<div class="row" >
+				 	<div class="row text-center" >
+				 		<img src="colors.png" alt="5 sites" 
+            width="50" />
            <div id="plot10" class="p-12 col-xs-12 plot m-3 "></div>
            <div class="row col-xs-12 empty "></div>
 				</div>
         <script>
-            GWIS.plot({
-                div_id      : "plot10",  // plot div
-                series : [              // add multiple data lines, in this order:                                     
-                   
-                    { site:"01610000", pcode:"00065", label:"Paw Paw", stroke_width:4, stroke_pattern:[],    color: "#F6F" }, 
-                    { site:"01613000", pcode:"00065", label:"Hancock", stroke_width:4, stroke_pattern:[], color: "#fa0" }, 
-                    { site:"01618000", pcode:"00065", label:"Shepherdstown", stroke_width:4, stroke_pattern:[7,3], color: "#0C0" },
-                    { site:"01638500", pcode:"00065", label:"Point of Rocks", stroke_width:4, stroke_pattern:[],    color: "#58c" }, 
-                    { site:"01646500", pcode:"00065", label:"Little Falls", stroke_width:4, stroke_pattern:[7,3], color: "#900" }, 
-                    
-                ],
-                title    : "Potomac River Gauge Height at 5 sites",      // plot title
-                ylabel   : "Gauge Height, in ft" // y-axis label
-            });
+        	gwis.plot({
+    				dataType: 'iv',
+    				div: 'plot10',
+    				dygraphOptions: {
+        				title: 'Potomac River Gauge Height at 5 sites.',
+        				ylabel: 'Gauge Height, in ft',
+        				legend          : 'follow',
+    				},
+    				series: {
+        				'Paw Paw':  { parameterCode:'00065', siteNumber:'01610000',  }, 
+                'Hancock':  { parameterCode:'00065',  siteNumber:'01613000', }, 
+                'Shepherdstown':  { parameterCode:'00065', siteNumber:'01618000',  }, 
+                'Point of Rocks':  { parameterCode:'00065',  siteNumber:'01638500', }, 
+                'Little Falls':  { parameterCode:'00065', siteNumber:'01646500',  }, 
+    				},
+				});
+				
+		
         </script>
-                       
-				 	
-
+        
     <!-- Little Falls and Point of Rocks turbidity & temp -->
 						
 
@@ -117,18 +138,23 @@
 
 				 		
         <script>
-            GWIS.plot({
-                div_id : "plot1",
-                series : [
-                    { axis:"y2", site:"01646500", pcode:"63680", label:"Little Falls Turbidity", stroke_width:2, stroke_pattern:[], color: "#900" },
-                    { axis:"y1", site:"01646500", pcode:"00010", label:"Little Falls Temp", stroke_width:2, stroke_pattern:[2,2], color: "#900" },
-                    { axis:"y2", site:"01638500", pcode:"63680", label:"Point of Rocks Turbidity", stroke_width:2, stroke_pattern:[],    color: "#58c" },
-                    { axis:"y1", site:"01638500", pcode:"00010", label:"Point of Rocks Temp", stroke_width:2, stroke_pattern:[2,2],    color: "#58c" }
-                ],
-                title  : " Turbidity___ and Temperature.... in C at Little Falls (red) and Point of Rocks (blue)",
-                ylabel   : "Temperature",            // y1 axis label
-                y2label  : "Turbidity",            // y2 axis label
-                controls : "all"    
+            gwis.plot({
+            	  dataType: 'iv',
+                div: "plot1",
+                dygraphOptions: {
+                	dateWindow : [Date.now() - 1000*60*60*24*7, Date.now()],
+        					title: 'Turbidity___ and Temperature.... in C at Little Falls (red) and Point of Rocks (blue)',
+        					ylabel: 'Temperature',
+        					y2label  : "Turbidity",            // y2 axis label
+                  controls : "all",
+                  legend : 'follow',   
+    						},
+                series : {
+                    'Little Falls Turbidity': { axis:"y2", siteNumber:"01646500", parameterCode:"63680", strokeWidth:2, strokePattern:[], color: "#900" },
+                   'Little Falls Temp':  { axis:"y1", siteNumber:"01646500", parameterCode:"00010", label:"", strokeWidth:2, strokePattern:[2,2], color: "#900" },
+                   'Point of Rocks Turbidity': { axis:"y2", siteNumber:"01638500", parameterCode:"63680", strokeWidth:2, strokePattern:[], color: "#58c" },
+                    'Point of Rocks Temp': { axis:"y1", siteNumber:"01638500", parameterCode:"00010", strokeWidth:2,  strokePattern:[2,2], color: "#58c" },
+                },            
             });
         </script>
 
@@ -147,6 +173,18 @@
                      });		     		
 				</script>
 				
+			<!-- 	sample that works  <div id="ElementId" style="height:300px"></div>
+				<script>
+				gwis.plot({
+    				div: 'ElementId',
+    				series: {
+        				'streamflow': {
+            				parameterCode: '00060',
+            				siteNumber: '08068000',
+        				},
+    				},
+				});
+			</script>   -->
 				
 				<!-- Little Falls and Point of Rocks temperature 
 					<div class="row" >
@@ -185,16 +223,28 @@
         	class="img-fluid imgwx" alt="Potomac River near Washington DC (Little Falls)" /></a>
 				   </div>
 				   <div class="row col-xs-12 empty"></div>
-					</div>		
+					</div>	
+					<div class="row col-xs-12 text-center">
+					<a href="https://water.noaa.gov/gauges/BRKM2"	target="_blank" rel="noopener noreferrer">
+					NWPS National Water Prediction Service for Little Falls</a>
+					</div>
+					<hr />
 
 				<!-- Little Falls gage height -->
 
         <script>
-            GWIS.plot({
-                div_id : "plot4",
-                series : [{ site:"01646500", pcode:"00065" }],
-                title  : "Little Falls gage height, feet",
-                legend : "onmouseover"
+            gwis.plot({
+                div : "plot4",
+                dygraphOptions: {
+                  legend : 'follow',   
+    						},
+                series : { 
+                	'Little Falls guage height, feet': {
+                		siteNumber:"01646500",
+                		parameterCode:"00065",
+                		color:'#900',
+                		 },
+                },
             });
         </script>
         <!-- Little Falls gage height text -->
@@ -233,15 +283,26 @@
 				   </div>
 				   <div class="row col-xs-12 empty"></div>
 					</div>
+					<div class="row col-xs-12 text-center">
+					<a href="https://water.noaa.gov/gauges/EDFM2"	target="_blank" rel="noopener noreferrer">
+					NWPS National Water Prediction Service for Edwards Ferry</a>
+					</div>
+					<hr />
 				
 				<!-- Edwards Ferry gage height -->
-				
-        <script>
-            GWIS.plot({
-                div_id : "plot5",
-                series : [{ site:"01644148", pcode:"00065" }],
-                title  : "Edwards Ferry gage height, feet",
-                legend : "onmouseover"
+				<script>
+            gwis.plot({
+                div : "plot5",
+                dygraphOptions: {
+                  legend : 'follow',   
+    						},
+                series : { 
+                	'Edwards Ferry gauge height, feet': {
+                		siteNumber:"01644148",
+                		parameterCode:"00065",
+                		color:'#900',
+                		 },
+                },
             });
         </script>
         
@@ -261,14 +322,25 @@
 				   </div>
 				   <div class="row col-xs-12 empty"></div>
 					</div>
+					<div class="row col-xs-12 text-center">
+					<a href="https://water.noaa.gov/gauges/PORM2"	target="_blank" rel="noopener noreferrer">
+					NWPS National Water Prediction Service for Point of Rocks</a>
+					</div>
+					<hr />
 				<!-- Point of Rocks gage height -->
-				
-        <script>
-            GWIS.plot({
-                div_id : "plot6",
-                series : [{ site:"01638500", pcode:"00065" }],
-                title  : "Point of Rocks gage height, feet",
-                legend : "onmouseover"
+				<script>
+            gwis.plot({
+                div : "plot6",
+                dygraphOptions: {
+                  legend : 'follow',   
+    						},
+                series : { 
+                	'Point of Rocks gauge height, feet': {
+                		siteNumber:"01638500",
+                		parameterCode:"00065",
+                		color:'#900',
+                		 },
+                },
             });
         </script>
         
@@ -325,16 +397,65 @@
 				   </div>
 				   <div class="row col-xs-12 empty"></div>
 					</div>
+					<div class="row col-xs-12 text-center">
+					<a href="https://water.noaa.gov/gauges/MILW2"	target="_blank" rel="noopener noreferrer">
+					NWPS National Water Prediction Service for Millville</a>
+					</div>
+					<hr />
 					<!-- Shenandoah River at Millville, WV gage height  -->
-        
-        <script>
-            GWIS.plot({
-                div_id : "plot11",
-                series : [{ site:"01636500", pcode:"00065" }],
-                title  : "Shenandoah River at Millville, WV gage height, feet",
-                legend : "onmouseover"
+        	<script>
+            gwis.plot({
+                div : "plot11",
+                dygraphOptions: {
+                  legend : 'follow',   
+    						},
+                series : { 
+                	'Shenandoah River at Millville, WV gauge height, feet': {
+                		siteNumber:"01636500",
+                		parameterCode:"00065",
+                		color:'#900',
+                		 },
+                },
             });
         </script>
+        
+         <!-- Harpers Ferry, WV gage height -->
+				
+					<div class="row " >
+						<div class="col-xs-6 smallplot m-3 " id="plot12"></div>
+						
+						<!-- NOAA Harpers Ferry, WV  -->
+				   
+				   <div class="col-xs-6 smallplot m-3">
+						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=hfew2" 
+				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/hfew2_hg.png"
+				        	 class="img-fluid imgwx" alt="Potomac River near Harpers Ferry, WV" /></a>
+				   </div>
+				   <div class="row col-xs-12 empty"></div>
+					</div>
+					<div class="row col-xs-12 text-center">
+					<a href="https://water.noaa.gov/gauges/HFEW2"	target="_blank" rel="noopener noreferrer">
+					NWPS National Water Prediction Service for Harpers Ferry</a>
+					</div>
+					<hr />
+				<!-- Harpers Ferry, WV gauge height -->
+				<script>
+            gwis.plot({
+                div : "plot12",
+                dygraphOptions: {
+                  legend : 'follow',   
+    						},
+                series : { 
+                	'Harpers Ferry, WV gauge height, feet': {
+                		siteNumber:"01620000",
+                		parameterCode:"00065",
+                		color:'#900',
+                		 },
+                },
+            });
+        </script>
+        
+        
         
         <!-- Shepherdstown, WV gage height -->
 				
@@ -350,17 +471,27 @@
 				   </div>
 				   <div class="row col-xs-12 empty"></div>
 					</div>
+					<div class="row col-xs-12 text-center">
+					<a href="https://water.noaa.gov/gauges/SHEW2"	target="_blank" rel="noopener noreferrer">
+					NWPS National Water Prediction Service for Shepherdstown</a>
+					</div>
+					<hr />
 				<!-- Shepherdstown, WV gauge height -->
-				
-        <script>
-            GWIS.plot({
-                div_id : "plot7",
-                series : [{ site:"01618000", pcode:"00065" }],
-                title  : "Shepherdstown, WV gage height, feet",
-                legend : "onmouseover"
+				<script>
+            gwis.plot({
+                div : "plot7",
+                dygraphOptions: {
+                  legend : 'follow',   
+    						},
+                series : { 
+                	'Shepherdstown, WV gauge height, feet': {
+                		siteNumber:"01618000",
+                		parameterCode:"00065",
+                		color:'#900',
+                		 },
+                },
             });
         </script>
-        
         <!-- Hancock, MD gauge height -->
 				
 					<div class="row " >
@@ -375,14 +506,25 @@
 				   </div>
 				   <div class="row col-xs-12 empty"></div>
 					</div>
+					<div class="row col-xs-12 text-center">
+					<a href="https://water.noaa.gov/gauges/HNKM2"	target="_blank" rel="noopener noreferrer">
+					NWPS National Water Prediction Service for Hancock</a>
+					</div>
+					<hr />
 				<!-- Hancock,MD gauge height -->
-				
         <script>
-            GWIS.plot({
-                div_id : "plot8",
-                series : [{ site:"01613000", pcode:"00065" }],
-                title  : "Hancock, MD gage height, feet",
-                legend : "onmouseover"
+            gwis.plot({
+                div : "plot8",
+                dygraphOptions: {
+                  legend : 'follow',   
+    						},
+                series : { 
+                	'Hancock, MD gauge height, feet': {
+                		siteNumber:"01613000",
+                		parameterCode:"00065",
+                		color:'#900',
+                		 },
+                },
             });
         </script>
         <!-- Paw Paw, WV gauge height -->
@@ -399,19 +541,27 @@
 				   </div>
 				   <div class="row col-xs-12 empty"></div>
 					</div>
+					<div class="row col-xs-12 text-center">
+					<a href="https://water.noaa.gov/gauges/PAWW2"	target="_blank" rel="noopener noreferrer">
+					NWPS National Water Prediction Service for Paw Paw</a>
+					</div>
+					<hr />
 				<!-- Paw Paw, WV gauge height -->
-				
-        <script>
-            GWIS.plot({
-                div_id : "plot9",
-                series : [{ site:"01610000", pcode:"00065" }],
-                title  : "Paw Paw WV height, feet",
-                legend : "onmouseover"
+				<script>
+            gwis.plot({
+                div : "plot9",
+                dygraphOptions: {
+                  legend : 'follow',   
+    						},
+                series : { 
+                	'Paw Paw WV height, feet': {
+                		siteNumber:"01610000",
+                		parameterCode:"00065",
+                		color:'#900',
+                		 },
+                },
             });
-        </script>
-				
-
-				
+        </script>		
         <!-- popup a plot when a button is clicked 
         <h2>A Pop-Up Plot:</h2>
         <p>
@@ -428,119 +578,11 @@
 
         
         <!-- title -->
-        <h2>Compare Two Potomac River Sites</h2>
-        
-        <!-- 2 site menus with groupings -->
-        <p>
-            Select Site 1:
-            <select id="menu_site1" onchange="update_plot();">
-                <optgroup label="Maryland Mainstem Potomac">
-                    <option value="01646500">01646500 Potomac River River at Little Falls           </option>                   
-                    <option value="01644148">01644148 Potomac River at Edwards Ferry, MD            </option>
-                    <option value="01638500">01638500 POTOMAC RIVER AT POINT OF ROCKS, MD           </option>                    
-                    <option value="01618000">01618000 POTOMAC RIVER AT SHEPHERDSTOWN, WV            </option>
-                    <option value="01638500">01638500 POTOMAC RIVER AT HANCOCK MD                   </option>
-                    <option value="01613000">01613000 POTOMAC RIVER AT PAW PAW, WV                  </option>
-                    <option value="01603000">01603000 NORTH BRANCH POTOMAC RIVER NEAR CUMBERLAND,MD </option>
-                </optgroup>
-            </select>
-            <br/>
-            Select Site 2:
-            <select id="menu_site2" onchange="update_plot();"></select>
-            <script>
-                $("#menu_site2")
-                    .html( $("#menu_site1").html()             )  // set site menu 2 items to site menu 1 items...
-                    .val(  $("#menu_site1 option:eq(1)").val() ); // ...and set 2nd item selected at startup
-            </script>
-        </p>
-        
-        <!-- parameter menu used for both sites -->
-        <p>
-            Select Parameter:
-            <select id="menu_pcode" onchange="update_plot();">
-                <option value="00065">Gage Height, ft                          </option>
-                <option value="00060">Streamflow, ft<sup>3</sup>/sec           </option>
-                <option value="00010">Water Temperature, &deg;C                </option>
-                <option value="00095">Specific Conductance, &mu;S/cm @ 25&deg;C</option>
-                <option value="00300">Dissolved Oxygen, mg/L                   </option>
-           
-            </select>
-        </p>
-        
-        <!-- time period menu used for both sites -->
-        <p>
-            Select Time Period:
-            <select id="menu_period" onchange="update_plot();">
-                <option value="p7d" >Past  7 Days</option>                
-                <option value="p1d" >Past  1 Day </option>
-                <option value="p7d" >Past  7 Days</option>
-                <option value="p14d">Past 14 Days</option>
-                <option value="p30d">Past 30 Days</option>
-                <option value="p60d">Past 60 Days</option>
-            </select>
-        </p>
-        
-        <!-- plot -->
-        
+ 
         	
-          
-				
-				
-				<div class="row" >
-        <div id="plot2" class="p-12 col-xs-12 plot m-3 ">></div>
-         <div class="row col-xs-12 empty "></div>
-         </div>
-     
+      
         
-        <!-- main js -->
-        <script>
-            
-            // declare global plot object for accessing the previous plot when a new plot is created
-            var plot = undefined;
-            
-            // function to update plot using currently selected menu items
-            var update_plot = function() {
-                
-                // create plot
-                plot = GWIS.plot({
-                    div_id : "plot2",
-                    period : $("#menu_period").val(), // current menu value used for both
-                    series : [
-                        { // site 1
-                            site  : $("#menu_site1").val(),                            // current menu value for site 1
-                            pcode : $("#menu_pcode").val(),                            // current menu value used for both
-                            label : "Site 1: "+$("#menu_site1 option:selected").text() // current menu text  for site 1
-                        },
-                        { // site 2
-                            site  : $("#menu_site2").val(),                            // current menu value for site 2
-                            pcode : $("#menu_pcode").val(),                            // current menu value used for both
-                            label : "Site 2: "+$("#menu_site2 option:selected").text() // current menu text  for site 2
-                        }
-                    ],
-                    title          : $("#menu_pcode  option:selected").text(), // current menu text - parameter plotted
-                    xlabel         : $("#menu_period option:selected").text(), // current menu text - time period requested
-                    ylabel         : $("#menu_pcode  option:selected").text(), // current menu text - parameter plotted
-                    range_selector : false,
-                    
-                    // add all controls
-                    controls : "all",
-                    
-                    // we want new plots to keep the same control checkbox state as the previous plot
-                    // use previous plot options for new plot, if previous plot does not exist (eg: startup) set a default
-                    y_fixscale : (plot ? plot.y_fixscale() : false ), // previous state or default false for startup
-                    y_logscale : (plot ? plot.y_logscale() : false ), // ...etc...
-                    y_show0    : (plot ? plot.y_show0()    : false ),
-                    x_grid     : (plot ? plot.x_grid()     : true  ),
-                    y_grid     : (plot ? plot.y_grid()     : true  )
-                });
-            };
-            
-            // update plot on startup using startup menu items
-            update_plot();
-            
-        </script>
-        
-        <div class="row col-xs-12">
+        <div class="row col-xs-12 hourly">
 
             <a href="https://www.tide-forecast.com/locations/Chain-Bridge-one-miles-below-DC/tides/latest" target="_blank" rel="noopener">
                 <img class="img-responsive" src="https://www.tide-forecast.com/system/charts-png/Chain-Bridge-one-miles-below-DC/tides.png" 
