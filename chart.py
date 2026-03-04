@@ -2,8 +2,17 @@ import requests
 import pandas as pd
 import plotly.graph_objects as go
 
-# List of gage IDs you want to generate hydrographs for
-gage_ids = ["BRKM2", "EDFM2", "PORM2", "MILW2", "HFEW2", "SHEW2", "HNKM2", "PAWW2"]  
+# Mapping Gage IDs to their display names
+GAGE_NAMES = {
+    "BRKM2": "Little Falls",
+    "EDFM2": "Edwards Ferry",
+    "PORM2": "Point of Rocks",
+    "MILW2": "Shenandoah River at Millville",
+    "HFEW2": "Harpers Ferry",
+    "SHEW2": "Potomac River at Shepherdstown",
+    "HNKM2": "Hancock",
+    "PAWW2": "Paw Paw"
+}
 
 headers = {"User-Agent": "myapp (janicedevlin@gmail.com)"}
 
@@ -17,10 +26,10 @@ def df_from(entries):
         return df
     return pd.DataFrame()
 
-# Loop through each gage ID
-for gage_id in gage_ids:
+# Loop through each gage ID in our dictionary
+for gage_id, gname in GAGE_NAMES.items():
     url = f"https://api.water.noaa.gov/nwps/v1/gauges/{gage_id}/stageflow"
-    print(f"Fetching data for gage {gage_id}...")
+    print(f"Fetching data for {gname} ({gage_id})...")
 
     try:
         response = requests.get(url, headers=headers, timeout=10)
@@ -46,7 +55,8 @@ for gage_id in gage_ids:
             x=df_obs["validTime"],
             y=df_obs["primary"],
             mode='lines+markers',
-            name='Observed'
+            name='Observed',
+            line=dict(color='blue')
         ))
 
     if not df_fcst.empty:
@@ -54,23 +64,21 @@ for gage_id in gage_ids:
             x=df_fcst["validTime"],
             y=df_fcst["primary"],
             mode='lines+markers',
-            name='Forecast'
+            name='Forecast',
+            line=dict(color='red', dash='dash')
         ))
 
     # Set layout
-    original_height = 600
-
     fig.update_layout(
-        title=f"NOAA Forecast level at {gage_id}",
+        title=f"NOAA Forecast level at {gname}",
         yaxis_title="Stage (feet)",
         template="plotly_white",
-        height=int(original_height * 0.6),
-        # margin=dict(l=40, r=20, t=60, b=40)
-        margin=dict(l=40, r=20, t=80, b=40),  # increased top margin for legend
+        height=360, # 60% of original 600
+        margin=dict(l=40, r=20, t=80, b=40),
         legend=dict(
-            orientation="h",   # horizontal legend
+            orientation="h",
             yanchor="bottom",
-            y=1.02,            # just above the chart
+            y=1.02,
             xanchor="center",
             x=0.5
         )
