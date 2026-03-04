@@ -42,13 +42,63 @@
 					height:300px;
 				}
 				
-				.plot {
+	/*			.plot {
 					height:500px;
 				}
 				.smallplot {
 					height:300px;
 					text-align: center;
-				}
+				}*/
+				/* Responsive plot sizing */
+         .plot, .smallplot {
+           width: 100%;
+           max-width: 100%;
+           text-align: center;
+           position: relative;
+         }
+         
+         /* Flexible height based on viewport */
+         .plot {
+           height: 55vh;   /* about half screen height */
+           min-height: 350px;
+         }
+         
+         .smallplot {
+           height: 45vh;
+           min-height: 300px;
+         }
+         
+         /* Responsive iframe wrapper */
+         .responsive-iframe-container {
+           position: relative;
+           width: 100%;
+           padding-bottom: 56.25%; /* 16:9 */
+           height: 0;
+           overflow: hidden;
+         }
+        
+         .responsive-iframe-container iframe {
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           border: 0;
+         }
+         
+         /* On smaller screens, adjust heights */
+         @media (max-width: 768px) {
+           .plot {
+             height: 45vh;
+             min-height: 280px;
+           }
+           .smallplot {
+             height: 40vh;
+             min-height: 250px;
+           }
+         }
+         
+
 				.empty {
 					height:10px;
 				}
@@ -56,12 +106,41 @@
 				    text-align: center;
 				    height:500px;
 				}
-				iframe {
+				/* iframe {
     				width: 100px;
     				height: 36px;
     				margin: 0 auto;
     				display:block;
-    			}
+    			} */
+    			
+    			/* Responsive iframe container */
+         .responsive-iframe-container {
+           position: relative;
+           width: 100%;
+           padding-bottom: 56.25%; /* 16:9 aspect ratio (change as needed) */
+           height: 0;
+           overflow: hidden;
+         }
+         
+         /* Make the iframe fill its parent */
+         .responsive-iframe-container iframe {
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           border: 0;
+         }
+
+         /* Optional: clock iframe can stay small */
+         .clock-iframe {
+           width: 120px;
+           height: 40px;
+           display: block;
+           margin: 10px auto;
+           border: none;
+         }
+
 }
        </style>
        
@@ -74,12 +153,7 @@
         <!-- title -->
        <div class="container">
        	<p class="text-center">USGS Gauges update via satellite once per hour This page refreshes every 2 minutes </p>
-       <!-- wp:paragraph {"align":"center"} -->
-       
-        <div class="row text-center" ><a href="https://www.google.com/maps/d/u/0/viewer?mid=1kH9iVRdbRRSAvLyv0JEYVcYWsx3RIwL-&ll=38.916477051532276%2C-77.10775135936963&z=16" 
-        	target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">
-        <img src="fcmap.png" alt="map of Fletchers Cove"></div>
-        <div class="row text-center" >Map of Fishing Spots At Fletchers Cove</a></div>
+
         <!-- begin container -->
         
 <iframe src="https://free.timeanddate.com/clock/i8r27zmj/n263/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="87" height="36"></iframe>
@@ -173,80 +247,56 @@
                      });		     		
 				</script>
 				
-			<!-- 	sample that works  <div id="ElementId" style="height:300px"></div>
-				<script>
-				gwis.plot({
-    				div: 'ElementId',
-    				series: {
-        				'streamflow': {
-            				parameterCode: '00060',
-            				siteNumber: '08068000',
-        				},
-    				},
-				});
-			</script>   -->
-				
-				<!-- Little Falls and Point of Rocks temperature 
-					<div class="row" >
-						<div class="p-12 col-xs-12 plot " id="plot2"></div>
-						
-						<div class="row col-xs-12 empty "></div>
-					</div>
-				 		
-        <script>
-            GWIS.plot({
-                div_id : "plot2",
-                series : [
-                    { axis:"y2", site:"01646500", pcode:"00010", label:"Little Falls", stroke_width:2, stroke_pattern:[], color: "#900" },
-                    { axis:"y2", site:"01638500", pcode:"00010", label:"Point of Rocks", stroke_width:2, stroke_pattern:[],    color: "#58c" }
-                    ],
-                title  : "Temperature at Little Falls (red) and Point of Rocks (blue)"
-            });
-        </script>    -->
-				
-				
-			
+
+                
+         <div class="container">
+          <div class="row">
+            <h2 class="col-12 text-center" id="show-lf-text">River Stage Graphs</h2>
+          </div>
         
-        <!-- Little Falls gage height -->
+          <div class="row d-flex align-items-stretch">
+            <!-- Left: USGS Dygraph Plot -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div id="plot4" class="plot"></div>
+            </div>
         
-       
-					<div class="row" >
-						<h2 class="row col-xs-12 text-center" id="show-lf-text"></h2>
-						<div class="p-12 col-xs-6 smallplot m-3 " id="plot4"></div>
-						
-						
-        <!-- NOAA Little Falls  -->
-				   
-				   <div class="col-xs-6 smallplot m-3 ">
-						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=brkm2"
-							 target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/brkm2_hg.png" 
-        	class="img-fluid imgwx" alt="Potomac River near Washington DC (Little Falls)" /></a>
-				   </div>
-				   <div class="row col-xs-12 empty"></div>
-					</div>	
-					<div class="row col-xs-12 text-center">
+            <!-- Right: NOAA Live Hydrograph Iframe -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div class="responsive-iframe-container">
+                <iframe
+                  src="https://janicedbailey.com/jtest/live_hydrograph_BRKM2.html"
+                  loading="lazy"
+                  title="Live Hydrograph"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="row col-xs-12 text-center">
 					<a href="https://water.noaa.gov/gauges/BRKM2"	target="_blank" rel="noopener noreferrer">
 					NWPS National Water Prediction Service for Little Falls</a>
 					</div>
-					<hr />
-
-				<!-- Little Falls gage height -->
-
-        <script>
-            gwis.plot({
-                div : "plot4",
-                dygraphOptions: {
-                  legend : 'follow',   
-    						},
-                series : { 
-                	'Little Falls guage height, feet': {
-                		siteNumber:"01646500",
-                		parameterCode:"00065",
-                		color:'#900',
-                		 },
-                },
-            });
-        </script>
+        
+          <hr />
+        </div>
+        
+					
+					<script>
+					  gwis.plot({
+					    div: "plot4",
+					    dygraphOptions: {
+					      legend: 'follow',
+					    },
+					    series: {
+					      'Little Falls guage height, feet': {
+					        siteNumber: "01646500",
+					        parameterCode: "00065",
+					        color: '#900',
+					      },
+					    },
+					  });
+					</script>
+					
+					
         <!-- Little Falls gage height text -->
 				<script>
 			      var usgsAPI = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=01646500&parameterCd=00065&siteStatus=all";
@@ -271,19 +321,24 @@
 				</script>
 				<!-- Edwards Ferry gage height -->
 				
-					<div class="row " >
-						<div class="col-xs-6 smallplot m-3 " id="plot5"></div>
-						
-						<!-- NOAA Edwards Ferry  -->
-				   
-				   <div class="col-xs-6 smallplot m-3">
-						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=edfm2" 
-				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/edfm2_hg.png"
-				        	 class="img-fluid imgwx" alt="Potomac River near Edwards Ferry" /></a>
-				   </div>
-				   <div class="row col-xs-12 empty"></div>
-					</div>
-					<div class="row col-xs-12 text-center">
+				<div class="row d-flex align-items-stretch">
+            <!-- Left: USGS Dygraph Plot -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div id="plot5" class="plot"></div>
+            </div>
+        
+            <!-- Right: NOAA Live Hydrograph Iframe -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div class="responsive-iframe-container">
+                <iframe
+                  src="https://janicedbailey.com/jtest/live_hydrograph_EDFM2.html"
+                  loading="lazy"
+                  title="Live Hydrograph"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="row col-xs-12 text-center">
 					<a href="https://water.noaa.gov/gauges/EDFM2"	target="_blank" rel="noopener noreferrer">
 					NWPS National Water Prediction Service for Edwards Ferry</a>
 					</div>
@@ -307,22 +362,25 @@
         </script>
         
         <!-- Point of Rocks gage height -->
-				
-					<div class="row " >
- <!--						<h2 class="row col-xs-12 text-center" id="show-por-temp-text"></h2>     -->
-						<h2 class="row col-xs-12 text-center" id="show-por-text"></h2>
-						<div class="col-xs-6 smallplot m-3 " id="plot6"></div>
+				<div class="row d-flex align-items-stretch">
+            <!-- Left: USGS Dygraph Plot -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div id="plot6" class="plot"></div>
+            </div>
+					
 						
-						<!-- NOAA Point of Rocks  -->
-				   
-				   <div class="col-xs-6 smallplot m-3">
-						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=porm2" 
-				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/porm2_hg.png"
-				        	 class="img-fluid imgwx" alt="Potomac River near Point of Rocks" /></a>
-				   </div>
-				   <div class="row col-xs-12 empty"></div>
-					</div>
-					<div class="row col-xs-12 text-center">
+					<!-- Right: NOAA Live Hydrograph Iframe -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div class="responsive-iframe-container">
+                <iframe
+                  src="https://janicedbailey.com/jtest/live_hydrograph_PORM2.html"
+                  loading="lazy"
+                  title="Live Hydrograph"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="row col-xs-12 text-center">
 					<a href="https://water.noaa.gov/gauges/PORM2"	target="_blank" rel="noopener noreferrer">
 					NWPS National Water Prediction Service for Point of Rocks</a>
 					</div>
@@ -384,20 +442,26 @@
 
             <!-- Shenandoah River at Millville, WV gage height  -->
 				
-					<div class="row " >
-						<div class="col-xs-6 smallplot m-3 " id="plot11"></div>
-							
+					<div class="row d-flex align-items-stretch">
+            <!-- Left: USGS Dygraph Plot -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div id="plot11" class="plot"></div>
+            </div>
 						
 						<!-- NOAA  Millville -->
 				   
-				   <div class="col-xs-6 smallplot m-3">
-						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=milw2" 
-				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/milw2_hg.png"
-				        	 class="img-fluid imgwx" alt="Potomac River near Millville" /></a>
-				   </div>
-				   <div class="row col-xs-12 empty"></div>
+				  	<!-- Right: NOAA Live Hydrograph Iframe -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div class="responsive-iframe-container">
+                <iframe
+                  src="https://janicedbailey.com/jtest/live_hydrograph_MILW2.html"
+                  loading="lazy"
+                  title="Live Hydrograph"
+                ></iframe>
+              </div>
+            </div>
 					</div>
-					<div class="row col-xs-12 text-center">
+					 <div class="row col-xs-12 text-center">
 					<a href="https://water.noaa.gov/gauges/MILW2"	target="_blank" rel="noopener noreferrer">
 					NWPS National Water Prediction Service for Millville</a>
 					</div>
@@ -421,17 +485,24 @@
         
          <!-- Harpers Ferry, WV gage height -->
 				
-					<div class="row " >
-						<div class="col-xs-6 smallplot m-3 " id="plot12"></div>
+					<div class="row d-flex align-items-stretch">
+            <!-- Left: USGS Dygraph Plot -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div id="plot12" class="plot"></div>
+            </div>
 						
 						<!-- NOAA Harpers Ferry, WV  -->
 				   
-				   <div class="col-xs-6 smallplot m-3">
-						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=hfew2" 
-				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/hfew2_hg.png"
-				        	 class="img-fluid imgwx" alt="Potomac River near Harpers Ferry, WV" /></a>
-				   </div>
-				   <div class="row col-xs-12 empty"></div>
+				  <!-- Right: NOAA Live Hydrograph Iframe -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div class="responsive-iframe-container">
+                <iframe
+                  src="https://janicedbailey.com/jtest/live_hydrograph_HFEW2.html"
+                  loading="lazy"
+                  title="Live Hydrograph"
+                ></iframe>
+              </div>
+            </div>
 					</div>
 					<div class="row col-xs-12 text-center">
 					<a href="https://water.noaa.gov/gauges/HFEW2"	target="_blank" rel="noopener noreferrer">
@@ -459,17 +530,24 @@
         
         <!-- Shepherdstown, WV gage height -->
 				
-					<div class="row " >
-						<div class="col-xs-6 smallplot m-3 " id="plot7"></div>
+					<div class="row d-flex align-items-stretch">
+            <!-- Left: USGS Dygraph Plot -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div id="plot7" class="plot"></div>
+            </div>
 						
 						<!-- NOAA Shepherdstown, WV  -->
 				   
-				   <div class="col-xs-6 smallplot m-3">
-						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=shew2" 
-				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/shew2_hg.png"
-				        	 class="img-fluid imgwx" alt="Potomac River near Shepherdstown, WV" /></a>
-				   </div>
-				   <div class="row col-xs-12 empty"></div>
+				  <!-- Right: NOAA Live Hydrograph Iframe -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div class="responsive-iframe-container">
+                <iframe
+                  src="https://janicedbailey.com/jtest/live_hydrograph_SHEW2.html"
+                  loading="lazy"
+                  title="Live Hydrograph"
+                ></iframe>
+              </div>
+            </div>
 					</div>
 					<div class="row col-xs-12 text-center">
 					<a href="https://water.noaa.gov/gauges/SHEW2"	target="_blank" rel="noopener noreferrer">
@@ -494,17 +572,24 @@
         </script>
         <!-- Hancock, MD gauge height -->
 				
-					<div class="row " >
-						<div class="col-xs-6 smallplot m-3 " id="plot8"></div>
-						
+					<div class="row d-flex align-items-stretch">
+            <!-- Left: USGS Dygraph Plot -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div id="plot8" class="plot"></div>
+            </div>
+            
 						<!-- NOAA Hancock MD  -->
 				   
-				   <div class="col-xs-6 smallplot m-3">
-						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=hnkm2" 
-				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/hnkm2_hg.png"
-				        	 class="img-fluid imgwx" alt="Potomac River near Point of Rocks" /></a>
-				   </div>
-				   <div class="row col-xs-12 empty"></div>
+				   <!-- Right: NOAA Live Hydrograph Iframe -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div class="responsive-iframe-container">
+                <iframe
+                  src="https://janicedbailey.com/jtest/live_hydrograph_HNKM2.html"
+                  loading="lazy"
+                  title="Live Hydrograph"
+                ></iframe>
+              </div>
+            </div>
 					</div>
 					<div class="row col-xs-12 text-center">
 					<a href="https://water.noaa.gov/gauges/HNKM2"	target="_blank" rel="noopener noreferrer">
@@ -529,17 +614,24 @@
         </script>
         <!-- Paw Paw, WV gauge height -->
 				
-					<div class="row " >
-						<div class="col-xs-6 smallplot m-3 " id="plot9"></div>
+					<div class="row d-flex align-items-stretch">
+            <!-- Left: USGS Dygraph Plot -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div id="plot9" class="plot"></div>
+            </div>
 						
 						<!-- NOAA Paw Paw, WV  -->
 				   
-				   <div class="col-xs-6 smallplot m-3">
-						<a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=paww2" 
-				        	target="_blank" rel="noopener noreferrer"><img src="http://water.weather.gov/resources/hydrographs/paww2_hg.png"
-				        	 class="img-fluid imgwx" alt="Potomac River near Paw Paw, WV" /></a>
-				   </div>
-				   <div class="row col-xs-12 empty"></div>
+				   <!-- Right: NOAA Live Hydrograph Iframe -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+              <div class="responsive-iframe-container">
+                <iframe
+                  src="https://janicedbailey.com/jtest/live_hydrograph_PAWW2.html"
+                  loading="lazy"
+                  title="Live Hydrograph"
+                ></iframe>
+              </div>
+            </div>
 					</div>
 					<div class="row col-xs-12 text-center">
 					<a href="https://water.noaa.gov/gauges/PAWW2"	target="_blank" rel="noopener noreferrer">
