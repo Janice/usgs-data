@@ -42,20 +42,14 @@
 					height:300px;
 				}
 				
-	/*			.plot {
-					height:500px;
-				}
-				.smallplot {
-					height:300px;
-					text-align: center;
-				}*/
-				/* Responsive plot sizing */
+					/* Responsive plot sizing */
          .plot, .smallplot {
            width: 100%;
            max-width: 100%;
            text-align: center;
            position: relative;
          }
+         
          
          /* Flexible height based on viewport */
          .plot {
@@ -102,16 +96,7 @@
 				.empty {
 					height:10px;
 				}
-				.hourly{
-				    text-align: center;
-				    height:500px;
-				}
-				/* iframe {
-    				width: 100px;
-    				height: 36px;
-    				margin: 0 auto;
-    				display:block;
-    			} */
+	
     			
     			/* Responsive iframe container */
          .responsive-iframe-container {
@@ -156,7 +141,7 @@
 
         <!-- begin container -->
         
-<iframe src="https://free.timeanddate.com/clock/i8r27zmj/n263/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="87" height="36"></iframe>
+				<iframe class="clock-iframe" src="https://free.timeanddate.com/clock/i8r27zmj/n263/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="87" height="36"></iframe>
 				 	
 				 	<div class="row col-xs-12 text-center h3">
 					<a href="https://water.noaa.gov/#@=-77.8834128,39.0892757,7.8785195&b=topographic&g=obsFcst,1!1!1!1!1!1!1!1!1!1!1!1!1!1!0!0!0!0,0.5,1!1!1!1!0,0,0&ab=0,0,%23D94B4A,1,1,1,%23cccccc,1,0,0,%23B243B1,1,0,0,%2398E09A,1&a=hydrologic,0.35&s=0,0,0.9,0.9&n=false,%2372afe9,0.9,0,0.9,0,0.9&p=false,0.75,0,7,0,1,2024,2,19,0&d=0,0,1,1,1,1,1,1,%23006EFF,1,%23006EFF,1,%23006EFF&q="	target="_blank" rel="noopener noreferrer">
@@ -264,7 +249,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div class="responsive-iframe-container">
                 <iframe
-                  src="https://janicedbailey.com/jtest/live_hydrograph_BRKM2.html"
+                  src="charts/live_hydrograph_BRKM2.html"
                   loading="lazy"
                   title="Live Hydrograph"
                 ></iframe>
@@ -331,7 +316,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div class="responsive-iframe-container">
                 <iframe
-                  src="https://janicedbailey.com/jtest/live_hydrograph_EDFM2.html"
+                  src="charts/live_hydrograph_EDFM2.html"
                   loading="lazy"
                   title="Live Hydrograph"
                 ></iframe>
@@ -361,19 +346,20 @@
             });
         </script>
         
-        <!-- Point of Rocks gage height -->
+ 				 <!-- Point of Rocks gage height -->
 				<div class="row d-flex align-items-stretch">
+					<h2 class="row col-xs-12 text-center" id="show-por-text"></h2>
             <!-- Left: USGS Dygraph Plot -->
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div id="plot6" class="plot"></div>
             </div>
-					
+            
 						
 					<!-- Right: NOAA Live Hydrograph Iframe -->
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div class="responsive-iframe-container">
                 <iframe
-                  src="https://janicedbailey.com/jtest/live_hydrograph_PORM2.html"
+                  src="charts/live_hydrograph_PORM2.html"
                   loading="lazy"
                   title="Live Hydrograph"
                 ></iframe>
@@ -386,6 +372,10 @@
 					</div>
 					<hr />
 				<!-- Point of Rocks gage height -->
+				
+
+					
+					
 				<script>
             gwis.plot({
                 div : "plot6",
@@ -454,7 +444,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div class="responsive-iframe-container">
                 <iframe
-                  src="https://janicedbailey.com/jtest/live_hydrograph_MILW2.html"
+                  src="charts/live_hydrograph_MILW2.html"
                   loading="lazy"
                   title="Live Hydrograph"
                 ></iframe>
@@ -497,7 +487,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div class="responsive-iframe-container">
                 <iframe
-                  src="https://janicedbailey.com/jtest/live_hydrograph_HFEW2.html"
+                  src="charts/live_hydrograph_HFEW2.html"
                   loading="lazy"
                   title="Live Hydrograph"
                 ></iframe>
@@ -542,7 +532,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div class="responsive-iframe-container">
                 <iframe
-                  src="https://janicedbailey.com/jtest/live_hydrograph_SHEW2.html"
+                  src="charts/live_hydrograph_SHEW2.html"
                   loading="lazy"
                   title="Live Hydrograph"
                 ></iframe>
@@ -584,7 +574,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div class="responsive-iframe-container">
                 <iframe
-                  src="https://janicedbailey.com/jtest/live_hydrograph_HNKM2.html"
+                  src="charts/live_hydrograph_HNKM2.html"
                   loading="lazy"
                   title="Live Hydrograph"
                 ></iframe>
@@ -626,7 +616,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
               <div class="responsive-iframe-container">
                 <iframe
-                  src="https://janicedbailey.com/jtest/live_hydrograph_PAWW2.html"
+                  src="charts/live_hydrograph_PAWW2.html"
                   loading="lazy"
                   title="Live Hydrograph"
                 ></iframe>
@@ -654,47 +644,10 @@
                 },
             });
         </script>		
-        <!-- popup a plot when a button is clicked 
-        <h2>A Pop-Up Plot:</h2>
-        <p>
-            <button onclick="button_onclick()">Little Falls Water Temperature</button>
-        </p>
-        <script>
-            var button_onclick = function() {
-                GWIS.plot({
-                    series : [{ site:"01646500", pcode:"00010" }]
-                });
-            };
-        </script>-->
 
-
-        
-        <!-- title -->
- 
-        	
-      
-        
-        <div class="row col-xs-12 hourly">
-
-            <a href="https://www.tide-forecast.com/locations/Chain-Bridge-one-miles-below-DC/tides/latest" target="_blank" rel="noopener">
-                <img class="img-responsive" src="https://www.tide-forecast.com/system/charts-png/Chain-Bridge-one-miles-below-DC/tides.png" 
-                alt=""/></a>
-        </div>
-        <div class="row col-xs-12 empty "></div>
-        <div class="row col-xs-12 hourly">
-            <a href="https://water.weather.gov/ahps2/hydrograph.php?wfo=lwx&gage=gtnd2" 
-				        	target="_blank" rel="noopener noreferrer">
-            <img src="http://water.weather.gov/resources/hydrographs/gtnd2_hg.png" alt="Potomac River at Wisconsin Ave" 
-            border="0" /><br />Hourly National Weather Service Forecast for near Fletcher's Cove (refresh all for updates)<br />
-            </a>
-        </div>
-        <div class="row col-xs-12 empty "></div>
-        <div class="row col-xs-12 hourly">
-            <a href="https://forecast.weather.gov/MapClick.php?lat=38.8656&lon=-77.0406&unit=0&lg=english&FcstType=graphical" target="_blank" rel="noopener">
-            <img src="http://forecast.weather.gov/meteograms/Plotter.php?lat=38.9384&amp;lon=-77.1654&amp;wfo=LWX&amp;zcode=VAZ053&amp;gset=20&amp;gdiff=3&amp;unit=0&amp;tinfo=EY5&amp;ahour=0&amp;pcmd=11011111111110000000000000000000000000000000000000000000000&amp;lg=en&amp;indu=1!1!1!&amp;dd=&amp;bw=&amp;hrspan=48&amp;pqpfhr=6&amp;psnwhr=6"
-            alt="forecasts at DCA"/>
-            </a>
-        </div>
+      		<div class="row col-xs-12 text-center h3">
+						Next generation NOAA NWPS Map Interface of DMV gauges 
+					</div>
         <div class="row col-xs-12 empty "></div>
     </div>
 </body>
