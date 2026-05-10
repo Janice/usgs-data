@@ -137,22 +137,23 @@
     <body style="background:#eee; font-family:arial;">
         <!-- title -->
        <div class="container">
-       	<p class="text-center">USGS Gauges update via satellite once per hour This page refreshes every 2 minutes </p>
+       	<p class="text-center">USGS and NOAA Gauges update via satellite once per hour This page refreshes every 2 minutes </p>
 
         <!-- begin container -->
         
 				<iframe class="clock-iframe" src="https://free.timeanddate.com/clock/i8r27zmj/n263/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="87" height="36"></iframe>
-				 	
-				 	<div class="row col-xs-12 text-center h3">
-					<a href="https://water.noaa.gov/#@=-77.8834128,39.0892757,7.8785195&b=topographic&g=obsFcst,1!1!1!1!1!1!1!1!1!1!1!1!1!1!0!0!0!0,0.5,1!1!1!1!0,0,0&ab=0,0,%23D94B4A,1,1,1,%23cccccc,1,0,0,%23B243B1,1,0,0,%2398E09A,1&a=hydrologic,0.35&s=0,0,0.9,0.9&n=false,%2372afe9,0.9,0,0.9,0,0.9&p=false,0.75,0,7,0,1,2024,2,19,0&d=0,0,1,1,1,1,1,1,%23006EFF,1,%23006EFF,1,%23006EFF&q="	target="_blank" rel="noopener noreferrer">
-					Next generation NOAA NWPS Map Interface of DMV gauges </a>
-					</div>
-				 	
+				<div class="row text-center" >
+					  <a href="monocacy.html"	target="_blank" rel="noopener noreferrer">
+					  	<p class="text-center">View USGS Gauges for the Monocacy River </p>
+				 		<img src="Monocacy.png" alt="Monocacy River Watershed" 
+          width="100" /></a>
+           <div class="row col-xs-12 empty "></div>
+				</div>
 				 					 	<!-- begin 5 site plot -->
 				 	<div class="row text-center" >
-				 		<img src="colors.png" alt="5 sites" 
-            width="50" />
-           <div id="plot10" class="p-12 col-xs-12 plot m-3 "></div>
+				 		<img src="AllFive.jpg" alt="5 sites" 
+            width="200" />
+           <div id="plot10" class="col-xs-12 plot"></div>
            <div class="row col-xs-12 empty "></div>
 				</div>
         <script>
@@ -183,7 +184,7 @@
 				 	<div class="row" >
 				 		<h2 class="row col-xs-12 text-center" id="show-temp-text"></h2>
 				 		<div class="row col-xs-12 empty "></div>
-						<div class="p-12 col-xs-12 plot " id="plot1"></div>
+						<div class="col-xs-12 plot " id="plot1"></div>
 						
 						<div class="row col-xs-12 empty "></div>
 					</div>
@@ -645,15 +646,10 @@
             });
         </script>		
 
-      		<div class="row col-xs-12 text-center h3">
-						Next generation NOAA NWPS Map Interface of DMV gauges 
-					</div>
-        <div class="row col-xs-12 empty "></div>
+    
     </div>
 </body>
 </html>
-
-
 
 
 
